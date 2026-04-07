@@ -1,0 +1,9 @@
+{
+  "name": "g2-timer",
+  "displayName": "Timer",
+  "version": "1.0.0",
+  "description": "Simple countdown timer for Even G2",
+  "type": "plugin",
+  "entry": "index.html",
+  "icon": "public/icon.png"
+}
