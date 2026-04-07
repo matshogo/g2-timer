@@ -19,59 +19,46 @@ function formatTime(seconds: number): string {
   return `${m}:${s}`
 }
 
-// 砂時計の砂をブロック文字で表現
-// width: 表示幅（文字数）、filled: 埋まっている割合 0.0〜1.0
-function buildHourglass(ratio: number, tick: number): string {
-  // ratio: 残り時間の割合（1.0=満杯、0.0=空）
-  // 砂時計は上が「使った分」、下が「残り」
-  const W = 13 // 横幅（奇数）
-  const TOP_ROWS = 5  // 上部（流れ出た砂）
-  const BOT_ROWS = 5  // 下部（溜まった砂）
+// 円グラフ: 残り時間の割合に応じて円弧が消えていく
+// ratio: 1.0=満杯（全円）、0.0=空（円なし）
+function buildPieChart(ratio: number): string {
+  const R = 6          // 半径（文字行数）
+  const SIZE = R * 2 + 1
+  const CX = R         // 中心
+  const CY = R
+  // 横方向は文字幅が縦の約半分なので2倍に伸ばす
+  const ASPECT = 2.0
 
   const lines: string[] = []
 
-  // ── 上部（使った分・空になっていく） ──
-  // ratio=1.0 → 上は満杯、ratio=0.0 → 上は空
-  const topFilled = ratio // 上にまだ残っている割合
-  for (let row = 0; row < TOP_ROWS; row++) {
-    // 上から下に向かって狭くなる台形
-    // row=0が一番広い行（W文字）、row=TOP_ROWS-1が一番狭い
-    const maxW = W - row * 2
-    if (maxW <= 0) {
-      lines.push(' '.repeat(W + 2))
-      continue
-    }
-    const pad = ' '.repeat((W - maxW) / 2)
-    // その行が「砂あり」かどうか
-    // 上部は下から埋まる（残り多いほど下から砂がある）
-    const rowThreshold = (TOP_ROWS - 1 - row) / (TOP_ROWS - 1)
-    const hasSand = topFilled >= rowThreshold
-    const sandChar = hasSand ? '▓' : '░'
-    lines.push(pad + sandChar.repeat(maxW) + pad)
-  }
+  for (let row = 0; row < SIZE; row++) {
+    let line = ''
+    for (let col = 0; col < SIZE * 2; col++) {
+      const dx = (col / ASPECT) - CX
+      const dy = row - CY
+      const dist = Math.sqrt(dx * dx + dy * dy)
 
-  // ── くびれ部分 ──
-  // 砂が落ちているアニメーション
-  const dropChars = ['·', ':', '|', ':']
-  const drop = running ? dropChars[tick % dropChars.length] : (ratio > 0 && ratio < 1 ? '·' : ' ')
-  const neckPad = ' '.repeat((W - 1) / 2)
-  lines.push(neckPad + drop + neckPad)
+      if (dist > R + 0.5) {
+        // 円の外
+        line += ' '
+      } else if (dist > R - 0.5) {
+        // 円の輪郭（常に表示）
+        line += '○'
+      } else {
+        // 円の内部: 角度で塗りつぶし判定
+        // 12時方向（上）を0として時計回り
+        let angle = Math.atan2(dx, -dy) // 上が0、時計回りで正
+        if (angle < 0) angle += 2 * Math.PI
+        const threshold = ratio * 2 * Math.PI
 
-  // ── 下部（溜まった砂・増えていく） ──
-  // ratio=1.0 → 下は空、ratio=0.0 → 下は満杯
-  const botFilled = 1 - ratio
-  for (let row = BOT_ROWS - 1; row >= 0; row--) {
-    const maxW = W - row * 2
-    if (maxW <= 0) {
-      lines.push(' '.repeat(W + 2))
-      continue
+        if (angle < threshold) {
+          line += '█'  // 残り時間あり
+        } else {
+          line += '░'  // 消えた部分
+        }
+      }
     }
-    const pad = ' '.repeat((W - maxW) / 2)
-    // 下部は上から埋まる（溜まるほど上の行まで砂がある）
-    const rowThreshold = (BOT_ROWS - 1 - row) / (BOT_ROWS - 1)
-    const hasSand = botFilled >= rowThreshold
-    const sandChar = hasSand ? '▓' : '░'
-    lines.push(pad + sandChar.repeat(maxW) + pad)
+    lines.push(line)
   }
 
   return lines.join('\n')
@@ -80,7 +67,7 @@ function buildHourglass(ratio: number, tick: number): string {
 function buildContent(): string {
   const ratio = secondsLeft / DURATION
   const time = formatTime(secondsLeft)
-  const hourglass = buildHourglass(ratio, animFrame)
+  const pie = buildPieChart(ratio)
 
   let statusLine: string
   if (secondsLeft === 0) {
@@ -92,13 +79,9 @@ function buildContent(): string {
   }
 
   const lines = [
-    '',
-    hourglass,
-    '',
+    pie,
     `       ${time}`,
-    '',
     statusLine,
-    '',
     '   [Press] Start/Stop  [x2] Reset',
   ]
 
