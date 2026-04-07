@@ -5,10 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "sim": "evenhub-simulator http://localhost:5173",
     "build": "tsc && vite build",
+    "pack": "evenhub pack app.json dist -o g2-timer.ehpk",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@evenrealities/evenhub-cli": "^0.1.11",
+    "@evenrealities/evenhub-simulator": "^0.6.2",
     "typescript": "~6.0.2",
     "vite": "^8.0.4"
   },
