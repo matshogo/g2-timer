@@ -1,2 +1,3 @@
 tools/patterns.json
 assets-build/
+__pycache__/
