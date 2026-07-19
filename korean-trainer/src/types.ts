@@ -1,3 +1,11 @@
+export type CourseId = 'audit' | 'vocab' | 'daily'
+
+export interface CourseMeta {
+  id: CourseId
+  title: string
+  description: string
+}
+
 export interface DrillItem {
   id: string
   patternId: string
@@ -9,6 +17,7 @@ export interface DrillItem {
 
 export interface Pattern {
   id: string
+  course: CourseId
   title: string
   meaning: string
   category: string

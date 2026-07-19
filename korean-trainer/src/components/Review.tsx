@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { DrillItem, Grade } from '../types'
-import { speakKorean, speechSupported } from '../lib/speech'
+import { speak } from '../lib/tts'
 
 interface Props {
   queue: DrillItem[]
@@ -70,11 +70,9 @@ export function Review({ queue, onGrade, onFinish }: Props) {
         {revealed ? (
           <div className="drill-answer">
             <div className="drill-korean">{highlight(item.korean, item.chunkKorean)}</div>
-            {speechSupported() && (
-              <button className="speak-btn" onClick={() => speakKorean(item.korean)}>
-                🔊 発音を聞く
-              </button>
-            )}
+            <button className="speak-btn" onClick={() => void speak(item.korean, 'ko-KR', 0.9)}>
+              🔊 発音を聞く
+            </button>
           </div>
         ) : (
           <button className="reveal-btn" onClick={() => setRevealed(true)}>

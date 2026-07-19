@@ -108,13 +108,31 @@ body {
 }
 
 .pattern-card {
-  text-align: left;
+  display: flex;
   background: var(--card);
-  border: none;
   border-radius: 14px;
+  overflow: hidden;
+}
+
+.pattern-main {
+  flex: 1;
+  text-align: left;
+  background: none;
+  border: none;
   padding: 14px 16px;
   color: var(--text);
   cursor: pointer;
+}
+
+.pattern-screen-btn {
+  border: none;
+  border-left: 1px solid var(--bg);
+  background: var(--card-alt);
+  color: var(--muted);
+  font-size: 11px;
+  padding: 0 14px;
+  cursor: pointer;
+  line-height: 1.6;
 }
 
 .pattern-category {
@@ -248,6 +266,134 @@ mark {
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
+}
+
+.secondary-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.secondary-btn {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid var(--card-alt);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.secondary-btn:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+.tab-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 24px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: var(--accent-strong);
+  color: white;
+}
+
+.course-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 8px 2px 12px;
+}
+
+.started-mark {
+  color: var(--good);
+  font-weight: 400;
+}
+
+.plan-note {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 28px;
+  padding: 12px 14px;
+  background: var(--card);
+  border-radius: 12px;
+}
+
+.audio-card {
+  min-height: 260px;
+}
+
+.audio-phase {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.phase-think {
+  color: var(--hard);
+}
+
+.phase-answer,
+.phase-judge {
+  color: var(--good);
+}
+
+.audio-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.audio-btn {
+  flex: 1;
+  padding: 16px;
+  border: 1px solid var(--card-alt);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.audio-btn.primary {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: white;
+}
+
+.audio-hint {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.marked-again {
+  outline: 2px solid var(--again);
+}
+
+.again-badge {
+  font-size: 13px;
+  color: var(--again);
+  font-weight: 700;
 }
 
 .grade-again {
