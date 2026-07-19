@@ -1,0 +1,267 @@
+:root {
+  color-scheme: light dark;
+  --bg: #0f1220;
+  --card: #1a1e33;
+  --card-alt: #232847;
+  --text: #f1f2f8;
+  --muted: #9497b8;
+  --accent: #6c8cff;
+  --accent-strong: #4d6bff;
+  --good: #3fbf7f;
+  --hard: #e0a83f;
+  --again: #e05353;
+  --easy: #4d9fff;
+  font-family: 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.screen {
+  padding: 20px 16px 40px;
+}
+
+.hero {
+  text-align: center;
+  padding: 20px 0 8px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.hero .sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.stat-row {
+  display: flex;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.stat-card {
+  flex: 1;
+  background: var(--card);
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.review-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 14px;
+  background: var(--accent-strong);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.review-btn:disabled {
+  background: var(--card-alt);
+  color: var(--muted);
+  cursor: default;
+}
+
+.section-title {
+  font-size: 15px;
+  color: var(--muted);
+  margin: 24px 0 10px;
+}
+
+.pattern-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pattern-card {
+  text-align: left;
+  background: var(--card);
+  border: none;
+  border-radius: 14px;
+  padding: 14px 16px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.pattern-category {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.pattern-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.pattern-meaning {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.drill-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.progress-text {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.pattern-banner {
+  background: var(--card-alt);
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.drill-card {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 32px 20px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.drill-card.center {
+  gap: 12px;
+}
+
+.done-emoji {
+  font-size: 40px;
+}
+
+.drill-prompt {
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.drill-answer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.drill-korean {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+mark {
+  background: rgba(108, 140, 255, 0.25);
+  color: var(--accent);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+.reveal-btn,
+.speak-btn {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.next-btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 16px;
+  border: none;
+  border-radius: 14px;
+  background: var(--accent-strong);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.grade-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.grade-btn {
+  padding: 12px 4px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.grade-again {
+  background: var(--again);
+}
+
+.grade-hard {
+  background: var(--hard);
+}
+
+.grade-good {
+  background: var(--good);
+}
+
+.grade-easy {
+  background: var(--easy);
+}
