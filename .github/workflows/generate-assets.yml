@@ -1,0 +1,67 @@
+name: Generate Audio + Guide PDF
+
+on:
+  push:
+    branches: ['claude/**', main]
+    paths: ['korean-trainer/tools/**', '.github/workflows/generate-assets.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: korean-trainer/package-lock.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install system packages (ffmpeg, CJK fonts, pango)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-noto-cjk libpango-1.0-0 libpangoft2-1.0-0
+
+      - name: Install Python packages
+        run: pip install edge-tts weasyprint
+
+      - name: Export phrase data
+        working-directory: korean-trainer
+        run: |
+          npm ci
+          node tools/export_data.mjs
+
+      - name: Generate MP3
+        working-directory: korean-trainer
+        run: python tools/generate_audio.py
+
+      - name: Generate PDF
+        working-directory: korean-trainer
+        run: python tools/generate_pdf.py
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: korean-trainer-assets
+          path: |
+            korean-trainer/assets-build/patatore-korean-audio.mp3
+            korean-trainer/assets-build/patatore-korean-guide.pdf
+
+      - name: Push assets to generated-assets branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan generated-assets
+          git rm -rf --cached . > /dev/null
+          git add -f korean-trainer/assets-build/patatore-korean-audio.mp3 \
+                     korean-trainer/assets-build/patatore-korean-guide.pdf
+          git commit -m "Generated audio + guide from ${GITHUB_SHA::7}"
+          git push -f origin generated-assets
